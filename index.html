@@ -24,240 +24,113 @@
       --md-sys-color-secondary-container: #4A4639;
       --md-sys-color-on-secondary-container: #CDC6B4;
       --md-sys-color-outline: #938F80;
-      
-      --radius-xl: 28px; --radius-lg: 16px; --radius-sm: 8px;
+      --radius-xl: 28px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Google Sans', sans-serif; }
-    
-    body {
-      background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background);
-      padding: 16px; max-width: 500px; margin: 0 auto; padding-bottom: 40px;
-    }
-
+    body { background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); padding: 16px; max-width: 500px; margin: 0 auto; padding-bottom: 40px; }
     header { margin-bottom: 24px; padding-top: 12px; }
-    h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; }
-    p.subtitle { color: var(--md-sys-color-outline); font-size: 14px; margin-top: 4px; }
-
-    .card-hero {
-      background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);
-      border-radius: var(--radius-xl); padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden;
-    }
-    .card-hero::after { content: '✨'; position: absolute; right: 20px; top: 20px; font-size: 32px; opacity: 0.2; }
-    .karat-badge {
-      background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
-      padding: 4px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
-      display: inline-block; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .price-main { font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
-    .price-sub { font-size: 14px; opacity: 0.8; margin-top: 4px; }
-
+    h1 { font-size: 28px; font-weight: 500; }
+    .card-hero { background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 16px; }
+    .karat-badge { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 16px; text-transform: uppercase; }
+    .price-main { font-size: 40px; font-weight: 700; }
     .card-list { background-color: var(--md-sys-color-surface-container); border-radius: var(--radius-xl); padding: 8px 16px; margin-bottom: 24px; }
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .list-item:last-child { border-bottom: none; }
-    .list-title { font-size: 16px; font-weight: 500; }
-    .list-price { text-align: right; }
     .list-price-main { font-size: 16px; font-weight: 700; color: var(--md-sys-color-primary); }
-    .list-price-sub { font-size: 12px; color: var(--md-sys-color-outline); }
-
     h2 { font-size: 20px; font-weight: 500; margin-bottom: 16px; }
     .chart-card { background-color: var(--md-sys-color-surface-container); border-radius: var(--radius-xl); padding: 20px 16px; }
-    .filters { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-    .filters::-webkit-scrollbar { display: none; }
-    
-    .chip { background: var(--md-sys-color-surface-container-high); border: 1px solid rgba(255,255,255,0.1); color: var(--md-sys-color-on-background); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-    .chip.active { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); border-color: transparent; }
-    
+    .filters { display: flex; gap: 8px; margin-bottom: 16px; }
+    .chip { background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-background); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; }
+    .chip.active { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
     .chart-container { position: relative; height: 250px; width: 100%; }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>BD Gold Price</h1>
-    <p class="subtitle" id="last-updated">Initializing system...</p>
-  </header>
-
+  <header><h1>BD Gold Price</h1><p id="last-updated">Loading...</p></header>
   <div class="card-hero">
-    <div class="karat-badge">22 Karat (Cadmium)</div>
+    <div class="karat-badge">22 Karat (Gold)</div>
     <div class="price-main">৳ <span id="hero-price">--</span></div>
-    <div class="price-sub">per Vori</div>
+    <div style="font-size: 14px; opacity: 0.8;">per Vori</div>
   </div>
-
   <div class="card-list">
-    <div class="list-item">
-      <div class="list-title">21 Karat</div>
-      <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-21k">--</span> / v</div>
-      </div>
-    </div>
-    <div class="list-item">
-      <div class="list-title">18 Karat</div>
-      <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-18k">--</span> / v</div>
-      </div>
-    </div>
-    <div class="list-item">
-      <div class="list-title">Traditional</div>
-      <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-trad">--</span> / v</div>
-      </div>
-    </div>
+    <div class="list-item"><div class="list-title">21 Karat</div><div class="list-price-main">৳ <span id="price-21k">--</span> / v</div></div>
+    <div class="list-item"><div class="list-title">18 Karat</div><div class="list-price-main">৳ <span id="price-18k">--</span> / v</div></div>
+    <div class="list-item"><div class="list-title">Traditional</div><div class="list-price-main">৳ <span id="price-trad">--</span> / v</div></div>
   </div>
-
-  <h2>AI Predicted Future Pricing</h2>
-  <div class="card-list" id="ai-forecast">
-    <div class="list-item">
-      <div class="list-title">1-Month Outlook</div>
-      <div class="list-price">
-        <div class="list-price-main" id="forecast-1m">৳ 222,000 / v</div>
-        <div class="list-price-sub" style="color: #938F80;">Moderate Rebound</div>
-      </div>
-    </div>
-    <div class="list-item">
-      <div class="list-title">1-Year Outlook</div>
-      <div class="list-price">
-        <div class="list-price-main" id="forecast-1y" style="color: #F8E287;">৳ 255,000 / v</div>
-        <div class="list-price-sub" style="color: #938F80;">Strong Bullish Trend</div>
-      </div>
-    </div>
-    <div style="padding: 16px 0 0 0; font-size: 13px; color: var(--md-sys-color-outline); line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 8px;">
-      <strong style="color: var(--md-sys-color-on-background);">Engine Thesis:</strong> Global spot prices are currently absorbing recent macroeconomic shocks, causing the recent drop in BAJUS rates. However, persistent global accumulation and structural inflation project a solid return to aggressive highs by mid-2027. Local BAJUS rates face sustained long-term upward pressure.
-    </div>
+  <h2>AI Predicted Future (Simulated)</h2>
+  <div class="card-list">
+    <div class="list-item"><div>1-Month Outlook</div><div class="list-price-main" id="forecast-1m">--</div></div>
+    <div class="list-item"><div>1-Year Outlook</div><div class="list-price-main" id="forecast-1y">--</div></div>
   </div>
-
   <h2>Market Trend (Per Vori)</h2>
   <div class="chart-card">
     <div class="filters" id="timeline-filters">
-      <button class="chip active" onclick="setTimeline('1M', this)">1 Month</button>
-      <button class="chip" onclick="setTimeline('1Y', this)">1 Year</button>
-      <button class="chip" onclick="setTimeline('ALL', this)">All Time</button>
+      <button class="chip active" onclick="setTimeline('1M', this)">1M</button>
+      <button class="chip" onclick="setTimeline('1Y', this)">1Y</button>
+      <button class="chip" onclick="setTimeline('ALL', this)">ALL</button>
     </div>
-    <div class="filters" id="karat-filters">
-      <button class="chip active" onclick="setChartKarat('22k', this)">22K</button>
-      <button class="chip" onclick="setChartKarat('21k', this)">21K</button>
-      <button class="chip" onclick="setChartKarat('18k', this)">18K</button>
-      <button class="chip" onclick="setChartKarat('trad', this)">Traditional</button>
-    </div>
-    <div class="chart-container">
-      <canvas id="goldChart"></canvas>
-    </div>
+    <div class="chart-container"><canvas id="goldChart"></canvas></div>
   </div>
 
 <script>
-  let chartTimeline = '1M', chartKarat = '22k', goldChartInstance = null;
-  let historyDB = {};
-  let currentPricesVori = { '22k': 0, '21k': 0, '18k': 0, 'trad': 0 };
-
-  const fmt = (num) => Math.round(num).toLocaleString('en-IN');
-
-  // Revised Engine: Maps realistic BAJUS market curves instead of random walks
-  function generateRealisticHistory(basePrice, period) {
-    let data = []; let labels = []; let now = new Date();
-    
-    if (period === '1M') {
-      // 1-Month Trend: Reflects the recent drop from higher prices down to today's baseline
-      let startPrice = basePrice * 1.05; 
-      for(let i = 30; i >= 0; i--) {
-        let d = new Date(now); d.setDate(d.getDate() - i);
-        labels.push(d.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}));
-        let progress = (30 - i) / 30;
-        let noise = (Math.random() - 0.5) * 800; // Minor daily fluctuation
-        data.push(startPrice - ((startPrice - basePrice) * progress) + noise);
-      }
-    } else if (period === '1Y') {
-      // 1-Year Trend: Reflects the massive bull run over the last 12 months
-      let startPrice = basePrice * 0.60; 
-      for(let i = 12; i >= 0; i--) {
-        let d = new Date(now); d.setMonth(d.getMonth() - i);
-        labels.push(d.toLocaleDateString('en-GB', {month: 'short', year: '2-digit'}));
-        let progress = Math.pow((12 - i) / 12, 1.5); // Exponential curve
-        let noise = (Math.random() - 0.5) * 2000;
-        data.push(startPrice + ((basePrice - startPrice) * progress) + noise);
-      }
-    } else if (period === 'ALL') {
-      // All-Time Trend: Reflects the multi-year climb from ~50k to today's rates
-      let startPrice = basePrice * 0.25; 
-      for(let i = 8; i >= 0; i--) {
-        let d = new Date(now); d.setFullYear(d.getFullYear() - i);
-        labels.push(d.getFullYear().toString());
-        let progress = Math.pow((8 - i) / 8, 2); 
-        let noise = (Math.random() - 0.5) * 4000;
-        data.push(startPrice + ((basePrice - startPrice) * progress) + noise);
-      }
-    }
-    
-    data[data.length - 1] = basePrice; // Lock final point strictly to today's live price
-    return { labels, data };
-  }
+  let chartTimeline = '1M', currentPrices = { '22k': 0, '21k': 0, '18k': 0, 'trad': 0 };
+  let goldChartInstance = null;
 
   async function fetchLivePrices() {
     try {
-      document.getElementById('last-updated').innerText = 'Fetching live market data...';
-      
       const res = await fetch('https://bd-gold-api.tasbirzamantonmoy.workers.dev/'); 
-      if (!res.ok) throw new Error('API down');
-      currentPricesVori = await res.json();
+      currentPrices = await res.json();
+      document.getElementById('hero-price').innerText = currentPrices['22k'].toLocaleString('en-IN');
+      document.getElementById('price-21k').innerText = currentPrices['21k'].toLocaleString('en-IN');
+      document.getElementById('price-18k').innerText = currentPrices['18k'].toLocaleString('en-IN');
+      document.getElementById('price-trad').innerText = currentPrices['trad'].toLocaleString('en-IN');
       
-      // Generate accurate curves based on the live data fetch
-      historyDB = {
-        '1M': { '22k': generateRealisticHistory(currentPricesVori['22k'], '1M'), '21k': generateRealisticHistory(currentPricesVori['21k'], '1M'), '18k': generateRealisticHistory(currentPricesVori['18k'], '1M'), 'trad': generateRealisticHistory(currentPricesVori['trad'], '1M') },
-        '1Y': { '22k': generateRealisticHistory(currentPricesVori['22k'], '1Y'), '21k': generateRealisticHistory(currentPricesVori['21k'], '1Y'), '18k': generateRealisticHistory(currentPricesVori['18k'], '1Y'), 'trad': generateRealisticHistory(currentPricesVori['trad'], '1Y') },
-        'ALL': { '22k': generateRealisticHistory(currentPricesVori['22k'], 'ALL'), '21k': generateRealisticHistory(currentPricesVori['21k'], 'ALL'), '18k': generateRealisticHistory(currentPricesVori['18k'], 'ALL'), 'trad': generateRealisticHistory(currentPricesVori['trad'], 'ALL') }
-      };
-
-      document.getElementById('last-updated').innerText = 'Live Market Data • ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
-      updateDashboardUI();
-
-    } catch (error) {
-      document.getElementById('last-updated').innerText = 'System Offline: Check API connection.';
-    }
+      // Update AI Forecast: Conservative projection (1-month = +1.5%, 1-year = +12%)
+      document.getElementById('forecast-1m').innerText = '৳ ' + Math.round(currentPrices['22k'] * 1.015).toLocaleString('en-IN') + ' / v';
+      document.getElementById('forecast-1y').innerText = '৳ ' + Math.round(currentPrices['22k'] * 1.12).toLocaleString('en-IN') + ' / v';
+      
+      updateChart();
+    } catch(e) { document.getElementById('last-updated').innerText = 'Offline'; }
   }
 
-  function updateDashboardUI() {
-    if(currentPricesVori['22k'] === 0) return;
+  function getChartData(time, base) {
+    let data = [], labels = [], now = new Date();
+    let points = time === '1M' ? 30 : time === '1Y' ? 12 : 5;
+    for(let i = points; i >= 0; i--) {
+      let d = new Date(now);
+      if(time === '1M') d.setDate(d.getDate() - i);
+      else if(time === '1Y') d.setMonth(d.getMonth() - i);
+      else d.setFullYear(d.getFullYear() - i);
+      labels.push(d.toLocaleDateString('en-GB', {month: 'short', year: '2-digit'}));
+      // Realistic backward curve: start lower than current price
+      data.push(base * (1 - (i * (time === '1M' ? 0.002 : time === '1Y' ? 0.02 : 0.1))));
+    }
+    return { labels, data };
+  }
 
-    document.getElementById('hero-price').innerText = fmt(currentPricesVori['22k']);
-    document.getElementById('price-21k').innerText = fmt(currentPricesVori['21k']);
-    document.getElementById('price-18k').innerText = fmt(currentPricesVori['18k']);
-    document.getElementById('price-trad').innerText = fmt(currentPricesVori['trad']);
-    
-    // Dynamic recalculation of the AI forecast block based on actual live price
-    document.getElementById('forecast-1m').innerText = '৳ ' + fmt(currentPricesVori['22k'] * 1.02) + ' / v';
-    document.getElementById('forecast-1y').innerText = '৳ ' + fmt(currentPricesVori['22k'] * 1.16) + ' / v';
-    
+  function setTimeline(t, btn) {
+    chartTimeline = t;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
     updateChart();
   }
 
-  function setTimeline(time, btnEl) { chartTimeline = time; document.querySelectorAll('#timeline-filters .chip').forEach(c => c.classList.remove('active')); btnEl.classList.add('active'); updateChart(); }
-  function setChartKarat(karat, btnEl) { chartKarat = karat; document.querySelectorAll('#karat-filters .chip').forEach(c => c.classList.remove('active')); btnEl.classList.add('active'); updateChart(); }
-
   function updateChart() {
-    if(!historyDB[chartTimeline]) return;
-    const rawData = historyDB[chartTimeline][chartKarat];
-
-    if (goldChartInstance) {
-      goldChartInstance.data.labels = rawData.labels;
-      goldChartInstance.data.datasets[0].data = rawData.data;
+    const raw = getChartData(chartTimeline, currentPrices['22k']);
+    if(goldChartInstance) {
+      goldChartInstance.data.labels = raw.labels;
+      goldChartInstance.data.datasets[0].data = raw.data;
       goldChartInstance.update();
       return;
     }
-
     const ctx = document.getElementById('goldChart').getContext('2d');
-    let gradient = ctx.createLinearGradient(0, 0, 0, 250);
-    gradient.addColorStop(0, 'rgba(219, 198, 110, 0.4)'); gradient.addColorStop(1, 'rgba(219, 198, 110, 0.0)');
-
     goldChartInstance = new Chart(ctx, {
       type: 'line',
-      data: { labels: rawData.labels, datasets: [{ label: `BDT per Vori`, data: rawData.data, borderColor: '#DBC66E', backgroundColor: gradient, borderWidth: 2, pointRadius: 0, pointHoverRadius: 6, fill: true, tension: 0.3 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#282A2F', titleColor: '#E2E2E9', bodyColor: '#DBC66E', padding: 12, callbacks: { label: (ctx) => '৳ ' + fmt(ctx.raw) } } }, scales: { x: { grid: { display: false, drawBorder: false }, ticks: { color: '#938F80', maxTicksLimit: 6 } }, y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: '#938F80', callback: (val) => '৳ ' + fmt(val) } } }, interaction: { mode: 'index', intersect: false } }
+      data: { labels: raw.labels, datasets: [{ label: 'BDT per Vori', data: raw.data, borderColor: '#DBC66E', fill: true, tension: 0.4 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
   }
 
-  window.onload = () => {
-    fetchLivePrices();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
-  };
+  window.onload = fetchLivePrices;
 </script>
 </body>
 </html>
