@@ -51,10 +51,6 @@
     }
     .price-main { font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
     .price-sub { font-size: 14px; opacity: 0.8; margin-top: 4px; }
-    
-    .unit-toggle { display: flex; gap: 8px; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; width: fit-content; }
-    .unit-btn { background: transparent; border: none; color: var(--md-sys-color-on-primary-container); padding: 6px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-    .unit-btn.active { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
 
     .card-list { background-color: var(--md-sys-color-surface-container); border-radius: var(--radius-xl); padding: 8px 16px; margin-bottom: 24px; }
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -85,34 +81,26 @@
   <div class="card-hero">
     <div class="karat-badge">22 Karat (Cadmium)</div>
     <div class="price-main">৳ <span id="hero-price">--</span></div>
-    <div class="price-sub">per <span id="hero-unit-label">Vori</span></div>
-    
-    <div class="unit-toggle">
-      <button class="unit-btn active" onclick="setGlobalUnit('vori')" id="btn-vori">Vori</button>
-      <button class="unit-btn" onclick="setGlobalUnit('gram')" id="btn-gram">Gram</button>
-    </div>
+    <div class="price-sub">per Vori</div>
   </div>
 
   <div class="card-list">
     <div class="list-item">
       <div class="list-title">21 Karat</div>
       <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-21k-v">--</span></div>
-        <div class="list-price-sub">৳ <span id="price-21k-g">--</span> / g</div>
+        <div class="list-price-main">৳ <span id="price-21k">--</span> / v</div>
       </div>
     </div>
     <div class="list-item">
       <div class="list-title">18 Karat</div>
       <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-18k-v">--</span></div>
-        <div class="list-price-sub">৳ <span id="price-18k-g">--</span> / g</div>
+        <div class="list-price-main">৳ <span id="price-18k">--</span> / v</div>
       </div>
     </div>
     <div class="list-item">
       <div class="list-title">Traditional</div>
       <div class="list-price">
-        <div class="list-price-main">৳ <span id="price-trad-v">--</span></div>
-        <div class="list-price-sub">৳ <span id="price-trad-g">--</span> / g</div>
+        <div class="list-price-main">৳ <span id="price-trad">--</span> / v</div>
       </div>
     </div>
   </div>
@@ -122,23 +110,23 @@
     <div class="list-item">
       <div class="list-title">1-Month Outlook</div>
       <div class="list-price">
-        <div class="list-price-main" id="forecast-1m">৳ 119,500 / v</div>
+        <div class="list-price-main" id="forecast-1m">৳ 222,000 / v</div>
         <div class="list-price-sub" style="color: #938F80;">Moderate Consolidation</div>
       </div>
     </div>
     <div class="list-item">
       <div class="list-title">1-Year Outlook</div>
       <div class="list-price">
-        <div class="list-price-main" id="forecast-1y" style="color: #F8E287;">৳ 152,000 / v</div>
+        <div class="list-price-main" id="forecast-1y" style="color: #F8E287;">৳ 255,000 / v</div>
         <div class="list-price-sub" style="color: #938F80;">Strong Bullish Trend</div>
       </div>
     </div>
     <div style="padding: 16px 0 0 0; font-size: 13px; color: var(--md-sys-color-outline); line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 8px;">
-      <strong style="color: var(--md-sys-color-on-background);">Engine Thesis:</strong> Global spot prices are consolidating near $4,316/oz following recent US policy shifts. However, persistent PBOC accumulation and structural inflation project a return to the $5,400–$6,000 range by mid-2027. Factoring in projected BDT currency performance, local BAJUS rates face sustained long-term upward pressure.
+      <strong style="color: var(--md-sys-color-on-background);">Engine Thesis:</strong> Global spot prices are currently absorbing recent macroeconomic shocks. However, persistent PBOC accumulation and structural inflation project a solid return to aggressive highs by mid-2027. Factoring in BDT currency performance, local BAJUS rates face sustained long-term upward pressure.
     </div>
   </div>
 
-  <h2>Market Trend</h2>
+  <h2>Market Trend (Per Vori)</h2>
   <div class="chart-card">
     <div class="filters" id="timeline-filters">
       <button class="chip active" onclick="setTimeline('1M', this)">1 Month</button>
@@ -157,8 +145,7 @@
   </div>
 
 <script>
-  const VORI_TO_GRAM = 11.6638;
-  let currentUnit = 'vori', chartTimeline = '1M', chartKarat = '22k', goldChartInstance = null;
+  let chartTimeline = '1M', chartKarat = '22k', goldChartInstance = null;
   let historyDB = {};
   let currentPricesVori = { '22k': 0, '21k': 0, '18k': 0, 'trad': 0 };
 
@@ -169,7 +156,7 @@
     for(let i = days; i >= 0; i--) {
       let d = new Date(now); d.setDate(d.getDate() - i);
       labels.push(d.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}));
-      current = current + (Math.random() * 2000 - 900); data.push(current);
+      current = current + (Math.random() * 2500 - 1100); data.push(current);
     }
     data[data.length - 1] = basePrice; 
     return { labels, data };
@@ -199,32 +186,13 @@
 
   function updateDashboardUI() {
     if(currentPricesVori['22k'] === 0) return;
-    const isVori = currentUnit === 'vori';
-    const div = isVori ? 1 : VORI_TO_GRAM;
 
-    document.getElementById('hero-price').innerText = fmt(currentPricesVori['22k'] / div);
-    document.getElementById('hero-unit-label').innerText = isVori ? 'Vori' : 'Gram';
-
-    const updateList = (k) => {
-      const vPrice = currentPricesVori[k];
-      const gPrice = vPrice / VORI_TO_GRAM;
-      if (isVori) {
-        document.getElementById(`price-${k}-v`).innerText = fmt(vPrice) + ' / v';
-        document.getElementById(`price-${k}-g`).innerText = fmt(gPrice);
-      } else {
-        document.getElementById(`price-${k}-v`).innerText = fmt(gPrice) + ' / g';
-        document.getElementById(`price-${k}-g`).innerText = fmt(vPrice) + ' / v';
-      }
-    };
-    updateList('21k'); updateList('18k'); updateList('trad');
+    document.getElementById('hero-price').innerText = fmt(currentPricesVori['22k']);
+    document.getElementById('price-21k').innerText = fmt(currentPricesVori['21k']);
+    document.getElementById('price-18k').innerText = fmt(currentPricesVori['18k']);
+    document.getElementById('price-trad').innerText = fmt(currentPricesVori['trad']);
+    
     updateChart();
-  }
-
-  function setGlobalUnit(unit) {
-    currentUnit = unit;
-    document.getElementById('btn-vori').classList.toggle('active', unit === 'vori');
-    document.getElementById('btn-gram').classList.toggle('active', unit === 'gram');
-    updateDashboardUI();
   }
 
   function setTimeline(time, btnEl) { chartTimeline = time; document.querySelectorAll('#timeline-filters .chip').forEach(c => c.classList.remove('active')); btnEl.classList.add('active'); updateChart(); }
@@ -233,14 +201,11 @@
   function updateChart() {
     if(!historyDB[chartTimeline]) return;
     const rawData = historyDB[chartTimeline][chartKarat];
-    const isVori = currentUnit === 'vori';
-    const div = isVori ? 1 : VORI_TO_GRAM;
-    const scaledData = rawData.data.map(val => val / div);
 
     if (goldChartInstance) {
       goldChartInstance.data.labels = rawData.labels;
-      goldChartInstance.data.datasets[0].data = scaledData;
-      goldChartInstance.data.datasets[0].label = `BDT per ${isVori ? 'Vori' : 'Gram'}`;
+      goldChartInstance.data.datasets[0].data = rawData.data;
+      goldChartInstance.data.datasets[0].label = `BDT per Vori`;
       goldChartInstance.update();
       return;
     }
@@ -251,7 +216,7 @@
 
     goldChartInstance = new Chart(ctx, {
       type: 'line',
-      data: { labels: rawData.labels, datasets: [{ label: `BDT per ${isVori ? 'Vori' : 'Gram'}`, data: scaledData, borderColor: '#DBC66E', backgroundColor: gradient, borderWidth: 2, pointRadius: 0, pointHoverRadius: 6, fill: true, tension: 0.3 }] },
+      data: { labels: rawData.labels, datasets: [{ label: `BDT per Vori`, data: rawData.data, borderColor: '#DBC66E', backgroundColor: gradient, borderWidth: 2, pointRadius: 0, pointHoverRadius: 6, fill: true, tension: 0.3 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#282A2F', titleColor: '#E2E2E9', bodyColor: '#DBC66E', padding: 12, callbacks: { label: (ctx) => '৳ ' + fmt(ctx.raw) } } }, scales: { x: { grid: { display: false, drawBorder: false }, ticks: { color: '#938F80', maxTicksLimit: 6 } }, y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: '#938F80', callback: (val) => '৳ ' + fmt(val) } } }, interaction: { mode: 'index', intersect: false } }
     });
   }
